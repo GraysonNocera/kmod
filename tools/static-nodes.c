@@ -252,8 +252,10 @@ static int do_static_nodes(int argc, char *argv[])
 		if (buf[0] == '#')
 			continue;
 
+		char format[22];
+		sprintf(format, "%%%ds %%%ds %%c%%u:%%u", PATH_MAX - 1, PATH_MAX - 1);
 		matches =
-			sscanf(buf, "%*s %*s %c%u:%u", PATH_MAX - 1, modname, PATH_MAX - 1, devname, &type, &maj, &min);
+			sscanf(buf, format, modname, devname, &type, &maj, &min);
 		if (matches != 5 || (type != 'c' && type != 'b')) {
 			fprintf(stderr, "Error: invalid devname entry: %s", buf);
 			ret = EXIT_FAILURE;
